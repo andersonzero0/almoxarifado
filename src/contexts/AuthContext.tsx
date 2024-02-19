@@ -1,18 +1,19 @@
+"use client"
 import { api } from "@/services/api";
-import { createContext, useState, useEffect, ReactNode } from "react";
+import { createContext, useState, ReactNode, useContext } from "react";
 
-export const AuthContext = createContext({} as any);
+const AuthContext = createContext({} as any);
 
 export type User = {
-  name: String;
-  username: String;
-  role: String;
-  access_token: String;
+  name: string;
+  username: string;
+  role: string;
+  access_token: string;
 };
 
 type LoginProps = {
-  username: String;
-  password: String;
+  username: string;
+  password: string;
 };
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -43,3 +44,5 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     </AuthContext.Provider>
   );
 }
+
+export const useAuthContext = () => useContext(AuthContext)
