@@ -1,15 +1,17 @@
 "use client"
 import { User, useAuthContext } from "@/contexts/AuthContext";
 import { redirect } from "next/navigation";
+import { useCookies } from "react-cookie";
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { user }: { user: User } = useAuthContext()
 
-  if (!user) {
+  const [cookies, setCookie] = useCookies(['user_data'])
+  
+  if (!cookies.user_data) {
     redirect("/login");
   }
 

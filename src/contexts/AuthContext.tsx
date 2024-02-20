@@ -1,6 +1,13 @@
-"use client"
+"use client";
 import { api } from "@/services/api";
-import { createContext, useState, ReactNode, useContext } from "react";
+import {
+  createContext,
+  useState,
+  ReactNode,
+  useContext,
+  useEffect,
+} from "react";
+import { useCookies } from "react-cookie";
 
 const AuthContext = createContext({} as any);
 
@@ -19,6 +26,7 @@ type LoginProps = {
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [cookies, setCookie] = useCookies(["user_data"]);
 
   async function login(loginData: LoginProps) {
     try {
@@ -29,6 +37,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         password: loginData.password,
       });
 
+      setCookie("user_data", data);
       setUser(data);
     } catch (error) {
       // toast
@@ -38,6 +47,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
+  useEffect(() => {
+    if (!cookies.user_data) {
+      return;
+    }
+
+    console.log(cookies.user_data)
+
+    setUser(cookies.user_data);
+  }, []);
+
   return (
     <AuthContext.Provider value={{ user, loading, login }}>
       {children}
@@ -45,4 +64,4 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 }
 
-export const useAuthContext = () => useContext(AuthContext)
+export const useAuthContext = () => useContext(AuthContext);

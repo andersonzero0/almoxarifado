@@ -1,7 +1,14 @@
 import { Providers } from "@/providers";
 import type { Metadata } from "next";
-import './globals.css'
-import 'react-toastify/dist/ReactToastify.css';
+import "./globals.css";
+import "react-toastify/dist/ReactToastify.css";
+import { Inter } from "next/font/google";
+import { cn } from "@/lib/utils";
+
+export const fontSans = Inter({
+  subsets: ['latin'],
+  variable: "--font-sans"
+})
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -14,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-br">
+    <html lang="pt-br" suppressHydrationWarning>
       <Providers>
         <body>{children}</body>
       </Providers>

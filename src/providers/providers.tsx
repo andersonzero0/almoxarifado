@@ -5,9 +5,9 @@ import { ToastContainer } from "react-toastify";
 
 export const Providers = ({ children }: { children: ReactNode }) => {
   return (
-    <>
-      <ToastContainer />
+    <div>
       <AuthProvider>{children}</AuthProvider>
-    </>
+      <ToastContainer/>
+    </div>
   );
 };
