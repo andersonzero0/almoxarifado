@@ -26,6 +26,7 @@ type LoginProps = {
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [loadingAuth, setLoadingAuth] = useState<boolean>(true);
   const [cookies, setCookie] = useCookies(["user_data"]);
 
   async function login(loginData: LoginProps) {
@@ -48,17 +49,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   useEffect(() => {
-    if (!cookies.user_data) {
-      return;
+    if (cookies.user_data) {
+      setUser(cookies.user_data)
     }
-
-    console.log(cookies.user_data)
-
-    setUser(cookies.user_data);
+    
+    setLoadingAuth(false)
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loading, login }}>
+    <AuthContext.Provider value={{ user, loading, login, loadingAuth }}>
       {children}
     </AuthContext.Provider>
   );

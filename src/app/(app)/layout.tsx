@@ -1,23 +1,31 @@
-"use client"
+"use client";
+import Header from "@/components/header";
+import Navbar from "@/components/navbar";
 import { User, useAuthContext } from "@/contexts/AuthContext";
-import { redirect } from "next/navigation";
-import { useCookies } from "react-cookie";
+import { useRouter } from "next/navigation";
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { user, loadingAuth }: { user: User; loadingAuth: boolean } =
+    useAuthContext();
+  const router = useRouter();
 
-  const [cookies, setCookie] = useCookies(['user_data'])
-  
-  if (!cookies.user_data) {
-    redirect("/login");
-  }
+  if (loadingAuth) return <p>Autenticando...</p>;
+  if (!user) router.push("/login");
 
   return (
     <html lang="pt-br">
-      <body>{children}</body>
+      <body>
+        <Header username={user.username} name={user.name} role={user.role} />
+
+        <div className="container">
+          <Navbar role={user.role}/>
+          {children}
+        </div>
+      </body>
     </html>
   );
 }

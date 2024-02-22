@@ -57,6 +57,7 @@ export default function Login() {
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col flex-1 justify-center gap-6 *:w-96 items-center"
+          method="POST"
         >
           <div className="flex flex-col gap-1">
             <label
