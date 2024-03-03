@@ -2,6 +2,7 @@
 import Header from "@/components/header";
 import Navbar from "@/components/navbar";
 import { User, useAuthContext } from "@/contexts/AuthContext";
+import { DataProvider } from "@/contexts/DataContext";
 import { useRouter } from "next/navigation";
 
 export default function RootLayout({
@@ -14,18 +15,20 @@ export default function RootLayout({
   const router = useRouter();
 
   if (loadingAuth) return <p>Autenticando...</p>;
-  if (!user) router.push("/login");
+  if (!user) return router.push("/login");
 
   return (
-    <html lang="pt-br">
-      <body>
-        <Header username={user.username} name={user.name} role={user.role} />
+    <DataProvider>
+      <html lang="pt-br">
+        <body>
+          <Header username={user.username} name={user.name} role={user.role} />
 
-        <div className="container">
-          <Navbar role={user.role}/>
-          {children}
-        </div>
-      </body>
-    </html>
+          <div className="container">
+            <Navbar role={user.role} />
+            {children}
+          </div>
+        </body>
+      </html>
+    </DataProvider>
   );
 }

@@ -12,7 +12,7 @@ export default function Navbar({ role }: { role: string }) {
       <CardNavbar name="Estoque" icon={<PackageSearch size={30} />} />
       <CardNavbar name="Fornecedores" icon={<Building2 />} />
       <CardNavbar name="Requisições" icon={<GitPullRequestArrow />} />
-      <CardNavbar name="Usuários" icon={<Users />} restricted={role == 'ADMIN'} />
+      <CardNavbar name="Usuários" icon={<Users />} restricted={role != 'ADMIN'} />
     </nav>
   );
 }
